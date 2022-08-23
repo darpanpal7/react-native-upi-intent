@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-upi-intent';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { multiply, getUpiApps } from 'react-native-upi-intent';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
@@ -10,9 +10,19 @@ export default function App() {
     multiply(3, 7).then(setResult);
   }, []);
 
+  const handlePress = async () => {
+    try {
+      const res = await getUpiApps('MANDATE');
+      console.info(res);
+    } catch (err) {
+      console.error('ERROR', err);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text>Result: {result}</Text>
+      <Button title="Press" onPress={handlePress} />
     </View>
   );
 }
